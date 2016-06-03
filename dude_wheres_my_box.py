@@ -42,14 +42,18 @@ class DudeWheresMyBox(object):
 		})
 		file_ = None
 		error = None
-		msg = None		
+		msg = None
+		compare = {'date':None, 'last_wan_ip':None}		
 		if os.path.exists(last_ip_txt):
 			file_ = open(last_ip_txt, 'r')
-			compare = json.loads(str(file_.read()).strip())
+			try:
+				compare = json.loads(str(file_.read()).strip())
+			except ValueError:
+				pass
+
 		else:
 			error = 'No History'
 			msg = 'Current WAN IP: %s' % current_ip
-			compare = {'date':None, 'last_wan_ip':None}
 
 		if compare['last_wan_ip'] != current_ip:
 			error = 'Not Matching IP'
